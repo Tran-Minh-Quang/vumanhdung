@@ -72,7 +72,9 @@ namespace Team12EUP.Controllers
             var mapUser = new User();
             mapUser.Id = mapacc.Id;
             mapUser.Role = 1;
-            mapUser.FullName = mapacc.UserName;
+            mapUser.FullName = rq.FullName;
+            mapUser.PhoneNumber = rq.Phone;
+            mapUser.Email = rq.Email;
             await _context.users.AddAsync(mapUser);
             await _context.SaveChangesAsync();
             return Ok(mapacc.Id);

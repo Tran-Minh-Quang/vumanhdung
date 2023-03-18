@@ -9,6 +9,9 @@ namespace Team12EUP.Mapper
         public AutoMapperProfile()
         {
             CreateMap<Account,AccountDTO>().ReverseMap();
+            CreateMap<Video, VideoDTO>().ReverseMap();
+            CreateMap<Test,TestDTO>().ReverseMap();
+            CreateMap<Question,QuestionDTO>().ReverseMap();
         }
     }
 }
