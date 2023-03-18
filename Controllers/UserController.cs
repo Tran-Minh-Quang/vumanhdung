@@ -78,14 +78,20 @@ namespace Team12EUP.Controllers
             return Ok(mapacc.Id);
 
         }
-        [HttpPut("ChangePass")]
-        public async Task<IActionResult> ChangePass([FromBody] string UserName , string Password , string NewPassword)
+        public class ChangePassDTO
         {
-            var check = await _context.accounts.FirstOrDefaultAsync(i => i.UserName == UserName && i.Password == Password);
+            public string UserName { get; set; }
+            public string Password { get; set; }
+            public string NewPassword { get; set; }
+        }
+        [HttpPut("ChangePass")]
+        public async Task<IActionResult> ChangePass([FromBody] ChangePassDTO rq)
+        {
+            var check = await _context.accounts.FirstOrDefaultAsync(i => i.UserName == rq.UserName && i.Password == rq.Password);
             if (check == null) return BadRequest(false);
             else
             {
-                check.Password = NewPassword;
+                check.Password = rq.NewPassword;
                 await _context.SaveChangesAsync();
                 return Ok(check.Id);
             } 
