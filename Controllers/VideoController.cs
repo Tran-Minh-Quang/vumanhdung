@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using Team12EUP.Data;
 using Team12EUP.DTO;
@@ -19,6 +20,25 @@ namespace Team12EUP.Controllers
         {
             _context = context;
             _mapper = mapper;
+        }
+        [HttpPost("AddCourse")]
+        public async Task<IActionResult> AddCourse([FromBody] AddCoursedDTO rq)
+        {
+            rq.Id=Guid.NewGuid();
+            var map = _mapper.Map<Course>(rq);
+            await _context.courses.AddAsync(map);
+            await _context.SaveChangesAsync();
+            return Ok(map.Id);
+        }
+        public class AddCoursedDTO
+        {
+            [JsonIgnore]
+            public Guid Id { get; set; }
+           
+            public Guid UserId { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public string Image { get; set; }
         }
         [HttpPost("AddVideo")]
         public async Task<IActionResult> AddVideo([FromBody] AddVideo rq)
