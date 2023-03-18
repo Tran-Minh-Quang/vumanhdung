@@ -138,7 +138,65 @@ namespace Team12EUP.Controllers
             }).OrderByDescending(a=>a.Mark).ToList();
             return Ok(value);
         }
+        [HttpGet("ViewVideo")]
+        public async Task<IActionResult> ViewVideo()
+        {
+            return Ok(await _context.videos.ToListAsync());
+        }
+        public class ViewTestDTO
+        {
+            public string NameTest { get;set; }
+            public string Content { get; set; }
+            public string Answer1 { get; set; }
+            public string Answer2 { get; set; }
+            public string Answer3 { get; set; }
+            public string Answer4 { get; set; }
+        }
+        public class ViewListTestDTO
+        {
+            public string NameTest { get; set; }
+            public List<AnswerTestDTO> Answers { get; set; }
+            
+        }
+        public class AnswerTestDTO
+        {
+            public string Content { get; set; }
+            public string Answer1 { get; set; }
+            public string Answer2 { get; set; }
+            public string Answer3 { get; set; }
+            public string Answer4 { get; set; }
+        }
+        [HttpGet("ViewTest")]
+        public async Task<IActionResult> ViewTest()
+        {
+            var data = from s in _context.tests
+                       join st in _context.questions on s.Id equals st.TestId
+                       select new ViewTestDTO
+                       {
+                           NameTest = s.Name,
+                           Content = st.Content,
+                           Answer1 = st.Answer1,
+                           Answer2 = st.Answer2,
+                           Answer3 = st.Answer3,
+                           Answer4 = st.Answer4,
+
+                       };
+            var value = data.GroupBy(i => i.NameTest).Select(g => new ViewListTestDTO
+            {
+                NameTest = g.Key,
+                Answers = g.Select(a => new AnswerTestDTO
+                {
 
 
+                    Content = a.Content,
+                    Answer1 = a.Answer1,
+                    Answer2 = a.Answer2,
+                    Answer3 = a.Answer3,
+                    Answer4 = a.Answer4
+
+                }).ToList()
+            }).ToList();
+            return Ok(value);
+        }
     }
 }
