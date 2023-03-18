@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "ecSSE7xXZqtcOBOfjaoAMf+VIB7nFv6nunIobj1m1bHQGew47fCT2/zcd5Dex3mZBxP2btkCD/U7QN1TFebv+Q==",
+  "dgSpecHash": "NexScq3nrAUllOzDG3tyEH6+lLPLt7lj7lRXEaxIFpeUaz8tTKnkcrdJfal6gvBoGXCu/7Jcu+Cv/t19Uxd5sA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Dell\\Desktop\\Eztek\\QuangBE\\vumanhdung\\Team12EUP.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Dell\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.2\\microsoft.entityframeworkcore.6.0.2.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.2\\microsoft.entityframeworkcore.abstractions.6.0.2.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.2\\microsoft.entityframeworkcore.analyzers.6.0.2.nupkg.sha512",

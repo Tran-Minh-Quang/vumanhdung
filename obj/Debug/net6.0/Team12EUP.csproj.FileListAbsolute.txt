@@ -38,3 +38,5 @@ C:\Users\Dell\Desktop\Eztek\QuangBE\vumanhdung\obj\Debug\net6.0\refint\Team12EUP
 C:\Users\Dell\Desktop\Eztek\QuangBE\vumanhdung\obj\Debug\net6.0\Team12EUP.pdb
 C:\Users\Dell\Desktop\Eztek\QuangBE\vumanhdung\obj\Debug\net6.0\Team12EUP.genruntimeconfig.cache
 C:\Users\Dell\Desktop\Eztek\QuangBE\vumanhdung\obj\Debug\net6.0\ref\Team12EUP.dll
+C:\Users\Dell\Desktop\Eztek\QuangBE\vumanhdung\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\Dell\Desktop\Eztek\QuangBE\vumanhdung\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
