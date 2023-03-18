@@ -17,6 +17,7 @@ namespace Team12EUP.DTO
         public string LinkVideo { get; set; }
         public string Description { get; set; }
         public Guid AdvertisementId { get; set; }
+        [JsonIgnore]
         public Guid CourseId { get; set; }
     }
     public class TestDTO
