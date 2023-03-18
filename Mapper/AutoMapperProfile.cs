@@ -12,6 +12,8 @@ namespace Team12EUP.Mapper
             CreateMap<Video, VideoDTO>().ReverseMap();
             CreateMap<Test,TestDTO>().ReverseMap();
             CreateMap<Question,QuestionDTO>().ReverseMap();
+            CreateMap<Account, AccountDto>().ReverseMap();
+
         }
     }
 }
