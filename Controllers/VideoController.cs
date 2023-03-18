@@ -153,6 +153,11 @@ namespace Team12EUP.Controllers
         {
             return Ok(_context.courses.Where(i=>i.UserId==userId).ToList());
         }
+        [HttpGet("GetAllCourse")]
+        public async Task<IActionResult> GetAllCourse()
+        {
+            return Ok(await _context.courses.ToListAsync());
+        }
         public class ViewTestDTO
         {
             public string NameTest { get;set; }
