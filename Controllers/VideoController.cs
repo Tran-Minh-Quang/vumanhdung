@@ -138,10 +138,10 @@ namespace Team12EUP.Controllers
             }).OrderByDescending(a=>a.Mark).ToList();
             return Ok(value);
         }
-        [HttpGet("ViewVideo")]
-        public async Task<IActionResult> ViewVideo()
+        [HttpGet("ViewVideoById")]
+        public async Task<IActionResult> ViewVideo([FromQuery]Guid id)
         {
-            return Ok(await _context.videos.ToListAsync());
+            return Ok(await _context.videos.FirstOrDefaultAsync(i=>i.Id==id));
         }
         [HttpGet("ViewVideoByCourseId")]
         public async Task<IActionResult> ViewVideoByCourseId([FromQuery] Guid id)
