@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 using Team12EUP.Data;
 using Team12EUP.DTO;
 using Team12EUP.Entity;
@@ -37,6 +38,23 @@ namespace Team12EUP.Controllers
                 await _context.questions.AddAsync(mapquestions);
             }
             return Ok(mapvideo.Id);
+        }
+        public class CreateAdvertísementDTO
+        {
+            [JsonIgnore]
+            public Guid id { get; set; }
+            public string Name { get; set; }
+            public string Image { get; set; }
+        }
+        [HttpPost("CreateAdvertísement")]
+        public async Task<IActionResult> CreateAdvertísement([FromBody] CreateAdvertísementDTO rq)
+        {
+            rq.id=Guid.NewGuid();
+           var map =_mapper.Map<Advertisement>(rq);  
+            await _context.advertisements.AddAsync(map);
+            await _context.SaveChangesAsync();
+            return Ok(map.Id);
+
         }
 
     }
