@@ -141,9 +141,10 @@ namespace Team12EUP.Controllers
             public float Mark { get; set; }
         }
         [HttpGet("Ranking")]
-        public async Task<IActionResult> Ranking()
+        public async Task<IActionResult> Ranking([FromQuery] Guid id)
         {
-            var join = from s in _context.historyTests
+            var checkvideo =await _context.tests.FirstOrDefaultAsync(i => i.VideoId == id);
+            var join = from s in _context.historyTests.Where(a=>a.id==checkvideo.HistoryTest)
                        join st in _context.users on s.UserId equals st.Id into tmp
                        from st in tmp.DefaultIfEmpty()
                        select new RankDTO

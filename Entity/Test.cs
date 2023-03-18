@@ -6,6 +6,7 @@
         public string Name { get; set; }    
         public int TotalQuestion { get;set; }
         public Guid VideoId {  get; set; }
+        public Guid HistoryTest { get; set; }
 
     }
 }
