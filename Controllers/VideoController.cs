@@ -143,6 +143,16 @@ namespace Team12EUP.Controllers
         {
             return Ok(await _context.videos.ToListAsync());
         }
+        [HttpGet("ViewVideoByCourseId")]
+        public async Task<IActionResult> ViewVideoByCourseId([FromQuery] Guid id)
+        {
+            return Ok(_context.videos.Where(i => i.CourseId == id).ToList());
+        }
+        [HttpGet("GetAllCourseByUserId")]
+        public async Task<IActionResult> GetAllCourseByUserId([FromQuery]Guid userId)
+        {
+            return Ok(_context.courses.Where(i=>i.UserId==userId).ToList());
+        }
         public class ViewTestDTO
         {
             public string NameTest { get;set; }
