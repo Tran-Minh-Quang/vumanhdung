@@ -16,6 +16,7 @@ namespace Team12EUP.Mapper
             CreateMap<Account, AccountDto>().ReverseMap();
             CreateMap<CreateAdvertísementDTO, Advertisement>().ReverseMap();
             CreateMap<HistoryTestDTO, HistoryTest>().ReverseMap();
+            CreateMap<AddCoursedDTO, Course>().ReverseMap();
         }
     }
 }
