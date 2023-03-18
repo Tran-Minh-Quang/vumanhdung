@@ -198,5 +198,38 @@ namespace Team12EUP.Controllers
             }).ToList();
             return Ok(value);
         }
+        [HttpGet("ViewDetailTest")]
+        public async Task<IActionResult> ViewDetailTest([FromQuery] Guid id)
+        {
+            var data = from s in _context.tests.Where(i=>i.Id==id)
+                       join st in _context.questions on s.Id equals st.TestId
+                       select new ViewTestDTO
+                       {
+                           NameTest = s.Name,
+                           Content = st.Content,
+                           Answer1 = st.Answer1,
+                           Answer2 = st.Answer2,
+                           Answer3 = st.Answer3,
+                           Answer4 = st.Answer4,
+
+                       };
+            var value = data.GroupBy(i => i.NameTest).Select(g => new ViewListTestDTO
+            {
+                NameTest = g.Key,
+                Answers = g.Select(a => new AnswerTestDTO
+                {
+
+
+                    Content = a.Content,
+                    Answer1 = a.Answer1,
+                    Answer2 = a.Answer2,
+                    Answer3 = a.Answer3,
+                    Answer4 = a.Answer4
+
+                }).ToList()
+            });
+            return Ok(value);
+        }
+
     }
 }
