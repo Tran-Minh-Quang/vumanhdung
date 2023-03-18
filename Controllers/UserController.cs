@@ -96,9 +96,16 @@ namespace Team12EUP.Controllers
                 check.Password = rq.NewPassword;
                 await _context.SaveChangesAsync();
                 return Ok(check.Id);
-            } 
-                
-        }    
+            }
+
+        }
+        [HttpGet("GetInfoUser")]    
+        public async Task<IActionResult> GetInfoUser([FromQuery] Guid id)
+        {
+            return Ok(await _context.users.FirstOrDefaultAsync(i => i.Id == id));
+        }
+
+
 
     }
 }
