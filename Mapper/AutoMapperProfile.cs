@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Team12EUP.DTO;
 using Team12EUP.Entity;
+using static Team12EUP.Controllers.VideoController;
 
 namespace Team12EUP.Mapper
 {
@@ -13,7 +14,7 @@ namespace Team12EUP.Mapper
             CreateMap<Test,TestDTO>().ReverseMap();
             CreateMap<Question,QuestionDTO>().ReverseMap();
             CreateMap<Account, AccountDto>().ReverseMap();
-
+            CreateMap<CreateAdvertísementDTO, Advertisement>().ReverseMap();
         }
     }
 }
