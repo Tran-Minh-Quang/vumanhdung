@@ -24,9 +24,27 @@ namespace Team12EUP.Controllers
         [HttpPost("AddCourse")]
         public async Task<IActionResult> AddCourse([FromBody] AddCoursedDTO rq)
         {
-            rq.Id=Guid.NewGuid();
+            rq.Id = Guid.NewGuid();
             var map = _mapper.Map<Course>(rq);
             await _context.courses.AddAsync(map);
+            rq.addVideo.video.Id = Guid.NewGuid();
+            rq.addVideo.video.CourseId = map.Id;
+            var mapvideo = _mapper.Map<Video>(rq.addVideo.video);
+            await _context.videos.AddAsync(mapvideo);
+            rq.addVideo.test.Id = Guid.NewGuid();
+            rq.addVideo.test.VideoId = mapvideo.Id;
+
+            rq.addVideo.test.TotalQuestion = rq.addVideo.questions.Count();
+            var mapTest = _mapper.Map<Test>(rq.addVideo.test);
+            await _context.tests.AddAsync(mapTest);
+            foreach (var item in rq.addVideo.questions)
+            {
+                item.Id = Guid.NewGuid();
+                item.TestId = mapTest.Id;
+                var mapquestions = _mapper.Map<Question>(item);
+                await _context.questions.AddAsync(mapquestions);
+            }
+
             await _context.SaveChangesAsync();
             return Ok(map.Id);
         }
@@ -34,11 +52,12 @@ namespace Team12EUP.Controllers
         {
             [JsonIgnore]
             public Guid Id { get; set; }
-           
+
             public Guid UserId { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
             public string Image { get; set; }
+            public AddVideo addVideo { get; set; }
         }
         [HttpPost("AddVideo")]
         public async Task<IActionResult> AddVideo([FromBody] AddVideo rq)
@@ -48,7 +67,7 @@ namespace Team12EUP.Controllers
             await _context.videos.AddAsync(mapvideo);
             rq.test.Id = Guid.NewGuid();
             rq.test.VideoId = mapvideo.Id;
-            rq.test.TotalQuestion= rq.questions.Count();
+            rq.test.TotalQuestion = rq.questions.Count();
             var mapTest = _mapper.Map<Test>(rq.test);
             await _context.tests.AddAsync(mapTest);
             foreach (var item in rq.questions)
@@ -70,8 +89,8 @@ namespace Team12EUP.Controllers
         [HttpPost("CreateAdvertisement")]
         public async Task<IActionResult> CreateAdvertisement([FromBody] CreateAdvertísementDTO rq)
         {
-            rq.id=Guid.NewGuid();
-           var map =_mapper.Map<Advertisement>(rq);  
+            rq.id = Guid.NewGuid();
+            var map = _mapper.Map<Advertisement>(rq);
             await _context.advertisements.AddAsync(map);
             await _context.SaveChangesAsync();
             return Ok(map.Id);
@@ -97,16 +116,16 @@ namespace Team12EUP.Controllers
         public async Task<IActionResult> AddHistoryTest([FromBody] HistoryTestDTO rq)
         {
             int check = 0;
-            foreach(var item in rq.Questions)
+            foreach (var item in rq.Questions)
             {
                 var checkitem = await _context.questions.FirstOrDefaultAsync(i => i.Id == item.QuestionId);
-                if(item.Answer==checkitem.Answer)
+                if (item.Answer == checkitem.Answer)
                 {
                     check++;
-                }    
-            }    
+                }
+            }
             rq.id = Guid.NewGuid();
-            rq.Mark = check/(rq.Questions.Count());
+            rq.Mark = check / (rq.Questions.Count());
             rq.Date = DateTime.Now;
             var map = _mapper.Map<HistoryTest>(rq);
             await _context.historyTests.AddAsync(map);
@@ -116,11 +135,11 @@ namespace Team12EUP.Controllers
         }
         public class RankDTO
         {
-            public Guid UserId { get; set;}
+            public Guid UserId { get; set; }
             public float Mark { get; set; }
         }
         [HttpGet("Ranking")]
-        public async Task<IActionResult>Ranking()
+        public async Task<IActionResult> Ranking()
         {
             var join = from s in _context.historyTests
                        join st in _context.users on s.UserId equals st.Id into tmp
@@ -135,13 +154,13 @@ namespace Team12EUP.Controllers
             {
                 UserId = g.Key,
                 Mark = g.Sum(n => n.Mark),
-            }).OrderByDescending(a=>a.Mark).ToList();
+            }).OrderByDescending(a => a.Mark).ToList();
             return Ok(value);
         }
         [HttpGet("ViewVideoById")]
-        public async Task<IActionResult> ViewVideo([FromQuery]Guid id)
+        public async Task<IActionResult> ViewVideo([FromQuery] Guid id)
         {
-            return Ok(await _context.videos.FirstOrDefaultAsync(i=>i.Id==id));
+            return Ok(await _context.videos.FirstOrDefaultAsync(i => i.Id == id));
         }
         [HttpGet("ViewVideoByCourseId")]
         public async Task<IActionResult> ViewVideoByCourseId([FromQuery] Guid id)
@@ -149,9 +168,9 @@ namespace Team12EUP.Controllers
             return Ok(_context.videos.Where(i => i.CourseId == id).ToList());
         }
         [HttpGet("GetAllCourseByUserId")]
-        public async Task<IActionResult> GetAllCourseByUserId([FromQuery]Guid userId)
+        public async Task<IActionResult> GetAllCourseByUserId([FromQuery] Guid userId)
         {
-            return Ok(_context.courses.Where(i=>i.UserId==userId).ToList());
+            return Ok(_context.courses.Where(i => i.UserId == userId).ToList());
         }
         [HttpGet("GetAllCourse")]
         public async Task<IActionResult> GetAllCourse()
@@ -160,7 +179,7 @@ namespace Team12EUP.Controllers
         }
         public class ViewTestDTO
         {
-            public string NameTest { get;set; }
+            public string NameTest { get; set; }
             public string Content { get; set; }
             public string Answer1 { get; set; }
             public string Answer2 { get; set; }
@@ -171,7 +190,7 @@ namespace Team12EUP.Controllers
         {
             public string NameTest { get; set; }
             public List<AnswerTestDTO> Answers { get; set; }
-            
+
         }
         public class AnswerTestDTO
         {
@@ -216,7 +235,7 @@ namespace Team12EUP.Controllers
         [HttpGet("ViewDetailTest")]
         public async Task<IActionResult> ViewDetailTest([FromQuery] Guid id)
         {
-            var data = from s in _context.tests.Where(i=>i.Id==id)
+            var data = from s in _context.tests.Where(i => i.Id == id)
                        join st in _context.questions on s.Id equals st.TestId
                        select new ViewTestDTO
                        {
