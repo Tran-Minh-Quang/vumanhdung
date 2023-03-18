@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Team12EUP.Data;
 using Team12EUP.DTO;
@@ -46,8 +47,8 @@ namespace Team12EUP.Controllers
             public string Name { get; set; }
             public string Image { get; set; }
         }
-        [HttpPost("CreateAdvertísement")]
-        public async Task<IActionResult> CreateAdvertísement([FromBody] CreateAdvertísementDTO rq)
+        [HttpPost("CreateAdvertisement")]
+        public async Task<IActionResult> CreateAdvertisement([FromBody] CreateAdvertísementDTO rq)
         {
             rq.id=Guid.NewGuid();
            var map =_mapper.Map<Advertisement>(rq);  
@@ -56,6 +57,44 @@ namespace Team12EUP.Controllers
             return Ok(map.Id);
 
         }
+        public class HistoryTestDTO
+        {
+            [JsonIgnore]
+            public Guid id { get; set; }
+            [JsonIgnore]
+            public float Mark { get; set; }
+            [JsonIgnore]
+            public DateTime Date { get; set; }
+            public Guid UserId { get; set; }
+            public List<QuestionDTOs> Questions { get; set; }
+        }
+        public class QuestionDTOs
+        {
+            public Guid QuestionId { get; set; }
+            public int Answer { get; set; }
+        }
+        [HttpPost("AddHistoryTest")]
+        public async Task<IActionResult> AddHistoryTest([FromBody] HistoryTestDTO rq)
+        {
+            int check = 0;
+            foreach(var item in rq.Questions)
+            {
+                var checkitem = await _context.questions.FirstOrDefaultAsync(i => i.Id == item.QuestionId);
+                if(item.Answer==checkitem.Answer)
+                {
+                    check++;
+                }    
+            }    
+            rq.id = Guid.NewGuid();
+            rq.Mark = check/(rq.Questions.Count());
+            rq.Date = DateTime.Now;
+            var map = _mapper.Map<HistoryTest>(rq);
+            await _context.historyTests.AddAsync(map);
+            await _context.SaveChangesAsync();
+            return Ok(map);
+
+        }
+
 
     }
 }
