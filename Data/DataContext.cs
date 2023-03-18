@@ -14,6 +14,7 @@ namespace Team12EUP.Data
         public DbSet<User> users { get; set; }
         public DbSet<Video> videos { get; set; }
         public DbSet<Voucher> vouchers { get; set; }
+        public DbSet<Test> tests { get; set; }
 
     }
 }
