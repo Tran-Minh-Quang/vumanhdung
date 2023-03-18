@@ -41,7 +41,7 @@ namespace Team12EUP.Controllers
         {
             var check = await _context.accounts.FirstOrDefaultAsync(i => i.UserName == UserName && i.Password == Password);
             if (check == null) return BadRequest(false);
-            else return Ok(true);
+            else return Ok(await _context.users.FirstOrDefaultAsync(i=>i.Id==check.Id));
         }
         [HttpPut("UpdateUser")]
         public async Task<IActionResult> UpdateUser([FromBody] User rq)
