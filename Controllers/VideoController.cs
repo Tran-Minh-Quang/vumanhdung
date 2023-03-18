@@ -94,6 +94,30 @@ namespace Team12EUP.Controllers
             return Ok(map);
 
         }
+        public class RankDTO
+        {
+            public Guid UserId { get; set;}
+            public float Mark { get; set; }
+        }
+        [HttpGet("Ranking")]
+        public async Task<IActionResult>Ranking()
+        {
+            var join = from s in _context.historyTests
+                       join st in _context.users on s.UserId equals st.Id into tmp
+                       from st in tmp.DefaultIfEmpty()
+                       select new RankDTO
+                       {
+                           UserId = st.Id,
+                           Mark = s.Mark
+
+                       };
+            var value = join.GroupBy(n => n.UserId).Select(g => new RankDTO
+            {
+                UserId = g.Key,
+                Mark = g.Sum(n => n.Mark),
+            }).OrderByDescending(a=>a.Mark).ToList();
+            return Ok(value);
+        }
 
 
     }
