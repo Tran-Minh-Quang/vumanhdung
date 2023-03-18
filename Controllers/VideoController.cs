@@ -27,24 +27,26 @@ namespace Team12EUP.Controllers
             rq.Id = Guid.NewGuid();
             var map = _mapper.Map<Course>(rq);
             await _context.courses.AddAsync(map);
-            rq.addVideo.video.Id = Guid.NewGuid();
-            rq.addVideo.video.CourseId = map.Id;
-            var mapvideo = _mapper.Map<Video>(rq.addVideo.video);
-            await _context.videos.AddAsync(mapvideo);
-            rq.addVideo.test.Id = Guid.NewGuid();
-            rq.addVideo.test.VideoId = mapvideo.Id;
-
-            rq.addVideo.test.TotalQuestion = rq.addVideo.questions.Count();
-            var mapTest = _mapper.Map<Test>(rq.addVideo.test);
-            await _context.tests.AddAsync(mapTest);
-            foreach (var item in rq.addVideo.questions)
+            foreach (var item in rq.addVideo)
             {
-                item.Id = Guid.NewGuid();
-                item.TestId = mapTest.Id;
-                var mapquestions = _mapper.Map<Question>(item);
-                await _context.questions.AddAsync(mapquestions);
-            }
+                item.video.Id = Guid.NewGuid();
+                item.video.CourseId = map.Id;
+                var mapvideo = _mapper.Map<Video>(item.video);
+                await _context.videos.AddAsync(mapvideo);
+                item.test.Id = Guid.NewGuid();
+                item.test.VideoId = mapvideo.Id;
 
+                item.test.TotalQuestion = item.questions.Count();
+                var mapTest = _mapper.Map<Test>(item.test);
+                await _context.tests.AddAsync(mapTest);
+                foreach (var item1 in item.questions)
+                {
+                    item1.Id = Guid.NewGuid();
+                    item1.TestId = mapTest.Id;
+                    var mapquestions = _mapper.Map<Question>(item1);
+                    await _context.questions.AddAsync(mapquestions);
+                }
+            }
             await _context.SaveChangesAsync();
             return Ok(map.Id);
         }
@@ -57,7 +59,7 @@ namespace Team12EUP.Controllers
             public string Name { get; set; }
             public string Description { get; set; }
             public string Image { get; set; }
-            public AddVideo addVideo { get; set; }
+            public List<AddVideo> addVideo { get; set; }
         }
         [HttpPost("AddVideo")]
         public async Task<IActionResult> AddVideo([FromBody] AddVideo rq)
