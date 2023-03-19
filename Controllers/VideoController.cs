@@ -139,6 +139,7 @@ namespace Team12EUP.Controllers
         public class RankDTO
         {
             public Guid UserId { get; set; }
+            public string Name { get; set; }
             public float Mark { get; set; }
         }
         [HttpGet("Ranking")]
@@ -150,13 +151,15 @@ namespace Team12EUP.Controllers
                        from st in tmp.DefaultIfEmpty()
                        select new RankDTO
                        {
+                           Name=st.FullName,
                            UserId = st.Id,
                            Mark = s.Mark
 
                        };
-            var value = join.GroupBy(n => n.UserId).Select(g => new RankDTO
+            var value = join.GroupBy(n => new { n.UserId ,n.Name}).Select(g => new RankDTO
             {
-                UserId = g.Key,
+                UserId = g.Key.UserId,
+                Name=g.Key.Name,
                 Mark = g.Sum(n => n.Mark),
             }).OrderByDescending(a => a.Mark).ToList();
             return Ok(value);
