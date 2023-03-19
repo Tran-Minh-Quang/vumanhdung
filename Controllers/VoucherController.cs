@@ -46,6 +46,7 @@ namespace Team12EUP.Controllers
             rq.Id=Guid.NewGuid();
             var map = _mapper.Map<Supplier>(rq);
             await _context.suppliers.AddAsync(map);
+            await _context.SaveChangesAsync();
             return Ok(map);
         }
         [HttpPost("AddVoucher")]
