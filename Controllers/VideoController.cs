@@ -183,7 +183,7 @@ namespace Team12EUP.Controllers
         {
             public Guid TestId { get; set; }
 
-            public Guid   VideoId   { get; set; }
+            public Guid VideoId { get; set; }
             public string NameVideo { get; set; }
             public string LinkVideo { get; set; }
             public string Description { get; set; }
@@ -207,11 +207,11 @@ namespace Team12EUP.Controllers
                        join st in _context.questions on sst.Id equals st.TestId
                        select new ViewTestDTOByCourseId
                        {
-                           TestId=sst.Id,
-                           VideoId     =s.Id            ,
-                           NameVideo   =s.Name          ,
-                           LinkVideo   =s.LinkVideo     ,
-                           Description =s.Description   ,
+                           TestId = sst.Id,
+                           VideoId = s.Id,
+                           NameVideo = s.Name,
+                           LinkVideo = s.LinkVideo,
+                           Description = s.Description,
                            NameTest = sst.Name,
                            Content = st.Content,
                            Answer1 = st.Answer1,
@@ -220,10 +220,10 @@ namespace Team12EUP.Controllers
                            Answer4 = st.Answer4,
 
                        };
-            var value = data.GroupBy(i => new { i.NameTest, i.VideoId,i.TestId, i.NameVideo, i.LinkVideo, i.Description }).Select(g => new ViewListTestDTOByCourseId
+            var value = data.GroupBy(i => new { i.NameTest, i.VideoId, i.TestId, i.NameVideo, i.LinkVideo, i.Description }).Select(g => new ViewListTestDTOByCourseId
             {
                 NameTest = g.Key.NameTest,
-                TestId=g.Key.TestId,
+                TestId = g.Key.TestId,
                 VideoId = g.Key.VideoId,
                 NameVideo = g.Key.NameVideo,
                 LinkVideo = g.Key.LinkVideo,
@@ -238,7 +238,7 @@ namespace Team12EUP.Controllers
                     Answer4 = a.Answer4
 
                 }).ToList()
-            }).ToList() ;
+            }).ToList();
             return Ok(value);
         }
         [HttpGet("GetAllCourseByUserId")]
@@ -253,6 +253,7 @@ namespace Team12EUP.Controllers
         }
         public class ViewTestDTO
         {
+            public Guid QuestionId { get; set; }
             public string NameTest { get; set; }
             public string Content { get; set; }
             public string Answer1 { get; set; }
@@ -268,6 +269,8 @@ namespace Team12EUP.Controllers
         }
         public class AnswerTestDTO
         {
+            public Guid QuestionId { get; set; }
+
             public string Content { get; set; }
             public string Answer1 { get; set; }
             public string Answer2 { get; set; }
@@ -313,6 +316,7 @@ namespace Team12EUP.Controllers
                        join st in _context.questions on s.Id equals st.TestId
                        select new ViewTestDTO
                        {
+                           QuestionId=st.Id,
                            NameTest = s.Name,
                            Content = st.Content,
                            Answer1 = st.Answer1,
@@ -328,6 +332,7 @@ namespace Team12EUP.Controllers
                 {
 
 
+                    QuestionId=a.QuestionId,
                     Content = a.Content,
                     Answer1 = a.Answer1,
                     Answer2 = a.Answer2,
