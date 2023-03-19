@@ -141,6 +141,8 @@ namespace Team12EUP.Controllers
             public Guid UserId { get; set; }
             public string Name { get; set; }
             public float Mark { get; set; }
+            //new
+            public DateTime CreateDate { get; set; }
         }
         [HttpGet("Ranking")]
         public async Task<IActionResult> Ranking([FromQuery] Guid id)
@@ -151,18 +153,19 @@ namespace Team12EUP.Controllers
                        from st in tmp.DefaultIfEmpty()
                        select new RankDTO
                        {
-                           Name=st.FullName,
+                           Name = st.FullName,
                            UserId = st.Id,
-                           Mark = s.Mark
+                           Mark = s.Mark,
+                           CreateDate = s.Date
 
                        };
-            var value = join.GroupBy(n => new { n.UserId ,n.Name}).Select(g => new RankDTO
-            {
-                UserId = g.Key.UserId,
-                Name=g.Key.Name,
-                Mark = g.Sum(n => n.Mark),
-            }).OrderByDescending(a => a.Mark).ToList();
-            return Ok(value);
+            //var value = join.GroupBy(n => new { n.UserId, n.Name }).Select(g => new RankDTO
+            //{
+            //    UserId = g.Key.UserId,
+            //    Name = g.Key.Name,
+            //    Mark = g.Sum(n => n.Mark),
+            //}).OrderByDescending(a => a.Mark).ToList();
+            return Ok(join.OrderByDescending(a => a.Mark).ToList());
         }
         [HttpGet("ViewVideoById")]
         public async Task<IActionResult> ViewVideo([FromQuery] Guid id)
