@@ -55,6 +55,7 @@ namespace Team12EUP.Controllers
             rq.Id = Guid.NewGuid();
             var map = _mapper.Map<Voucher>(rq);
             await _context.vouchers.AddAsync(map);
+            await _context.SaveChangesAsync();
             return Ok(map);
         }
         [HttpGet("ViewAllVoucher")]
