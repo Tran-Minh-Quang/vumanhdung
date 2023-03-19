@@ -16,5 +16,6 @@ namespace Team12EUP.Data
         public DbSet<Voucher> vouchers { get; set; }
         public DbSet<Test> tests { get; set; }
         public DbSet<Supplier> suppliers { get; set; }
+        public DbSet<UserVoucher> userVouchers { get; set;}
     }
 }

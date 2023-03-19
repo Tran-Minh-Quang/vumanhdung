@@ -20,6 +20,7 @@ namespace Team12EUP.Mapper
             CreateMap<AddCoursedDTO, Course>().ReverseMap();
             CreateMap<Supplier, SupplierDTO>().ReverseMap();
             CreateMap<VoucherDTO, Voucher>().ReverseMap();
+            CreateMap<UserVoucher, AddVouchetToUserDTO>().ReverseMap();
         }
     }
 }

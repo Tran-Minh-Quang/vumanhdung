@@ -72,6 +72,26 @@ namespace Team12EUP.Controllers
         {
             return Ok(await _context.suppliers.ToListAsync());
         }
+        public class AddVouchetToUserDTO
+        {
+            [JsonIgnore]
+            public Guid Id { get; set; }
+            public Guid UserId { get; set; }
+            public Guid VoucherId { get; set; }
+        }
+        [HttpPost("AddVoucherToUser")]
+        public async Task<IActionResult> AddVoucherToUser([FromBody]AddVouchetToUserDTO rq)
+        {
+            var map = _mapper.Map<UserVoucher>(rq);
+            await _context.userVouchers.AddAsync(map);
+            await _context.SaveChangesAsync();
+            return Ok(map);
+        }
+        [HttpGet("ViewVoucherByUserId")]
+        public async Task<IActionResult> ViewVoucherByUserId([FromBody]Guid id)
+        {
+            return Ok( _context.userVouchers.Where(i => i.UserId == id));
+        }    
 
     }
 }
