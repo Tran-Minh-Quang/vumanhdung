@@ -338,6 +338,11 @@ namespace Team12EUP.Controllers
             });
             return Ok(value);
         }
+        [HttpGet("ViewSupplier")]
+        public async Task<IActionResult> ViewSupplier()
+        {
+            return Ok(await _context.suppliers.ToListAsync());
+        }
 
     }
 }
