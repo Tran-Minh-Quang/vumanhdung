@@ -12,5 +12,6 @@ namespace Team12EUP.Entity
         public DateTime DateEnd { get; set; }
         public string DetailContent { get; set; }
         public Guid Supplier { get; set; }
+        public string QrCode { get;set; }
     }
 }
