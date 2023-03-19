@@ -107,6 +107,7 @@ namespace Team12EUP.Controllers
             [JsonIgnore]
             public DateTime Date { get; set; }
             public Guid UserId { get; set; }
+            public Guid TestId { get; set; }
             public List<QuestionDTOs> Questions { get; set; }
         }
         public class QuestionDTOs
