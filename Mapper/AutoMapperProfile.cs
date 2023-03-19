@@ -2,6 +2,7 @@
 using Team12EUP.DTO;
 using Team12EUP.Entity;
 using static Team12EUP.Controllers.VideoController;
+using static Team12EUP.Controllers.VoucherController;
 
 namespace Team12EUP.Mapper
 {
@@ -17,6 +18,8 @@ namespace Team12EUP.Mapper
             CreateMap<CreateAdvertísementDTO, Advertisement>().ReverseMap();
             CreateMap<HistoryTestDTO, HistoryTest>().ReverseMap();
             CreateMap<AddCoursedDTO, Course>().ReverseMap();
+            CreateMap<Supplier, SupplierDTO>().ReverseMap();
+            CreateMap<VoucherDTO, Voucher>().ReverseMap();
         }
     }
 }

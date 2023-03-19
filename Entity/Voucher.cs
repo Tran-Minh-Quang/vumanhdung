@@ -11,5 +11,6 @@ namespace Team12EUP.Entity
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
         public string DetailContent { get; set; }
+        public Guid Supplier { get; set; }
     }
 }
