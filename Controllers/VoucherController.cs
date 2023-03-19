@@ -62,6 +62,11 @@ namespace Team12EUP.Controllers
         {
             return Ok(await _context.vouchers.ToListAsync());
         }
+        [HttpGet("ViewDetailVoucher")]
+        public async Task<IActionResult> ViewDetailVoucher([FromBody] Guid id)
+        {
+            return Ok(await _context.vouchers.FirstOrDefaultAsync(i=>i.Id==id));
+        }
         [HttpGet("ViewAllSupplier")]
         public async Task<IActionResult> ViewAllSupplier()
         {
