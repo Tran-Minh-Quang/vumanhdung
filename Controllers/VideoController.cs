@@ -143,8 +143,8 @@ namespace Team12EUP.Controllers
         [HttpGet("Ranking")]
         public async Task<IActionResult> Ranking([FromQuery] Guid id)
         {
-            var checkvideo =await _context.tests.FirstOrDefaultAsync(i => i.VideoId == id);
-            var join = from s in _context.historyTests.Where(a=>a.id==checkvideo.HistoryTest)
+            var checkvideo = await _context.tests.FirstOrDefaultAsync(i => i.VideoId == id);
+            var join = from s in _context.historyTests.Where(a => a.id == checkvideo.HistoryTest)
                        join st in _context.users on s.UserId equals st.Id into tmp
                        from st in tmp.DefaultIfEmpty()
                        select new RankDTO
@@ -165,10 +165,76 @@ namespace Team12EUP.Controllers
         {
             return Ok(await _context.videos.FirstOrDefaultAsync(i => i.Id == id));
         }
+        public class ViewTestDTOByCourseId
+        {
+            public Guid VideoId { get; set; }
+            public string NameVideo { get; set; }
+            public string LinkVideo { get; set; }
+            public string Description { get; set; }
+            public string NameTest { get; set; }
+            public string Content { get; set; }
+            public string Answer1 { get; set; }
+            public string Answer2 { get; set; }
+            public string Answer3 { get; set; }
+            public string Answer4 { get; set; }
+        }
+        public class ViewListTestDTOByCourseId
+        {
+            public Guid   VideoId   { get; set; }
+            public string NameVideo { get; set; }
+            public string LinkVideo { get; set; }
+            public string Description { get; set; }
+            public string NameTest { get; set; }
+            public List<AnswerTestDTOByCourseId> Answers { get; set; }
+
+        }
+        public class AnswerTestDTOByCourseId
+        {
+            public string Content { get; set; }
+            public string Answer1 { get; set; }
+            public string Answer2 { get; set; }
+            public string Answer3 { get; set; }
+            public string Answer4 { get; set; }
+        }
         [HttpGet("ViewVideoByCourseId")]
         public async Task<IActionResult> ViewVideoByCourseId([FromQuery] Guid id)
         {
-            return Ok(_context.videos.Where(i => i.CourseId == id).ToList());
+            var data = from s in _context.videos.Where(i => i.CourseId == id)
+                       join sst in _context.tests on s.Id equals sst.VideoId
+                       join st in _context.questions on sst.Id equals st.TestId
+                       select new ViewTestDTOByCourseId
+                       {
+                           VideoId     =s.Id            ,
+                           NameVideo   =s.Name          ,
+                           LinkVideo   =s.LinkVideo     ,
+                           Description =s.Description   ,
+                           NameTest = sst.Name,
+                           Content = st.Content,
+                           Answer1 = st.Answer1,
+                           Answer2 = st.Answer2,
+                           Answer3 = st.Answer3,
+                           Answer4 = st.Answer4,
+
+                       };
+            var value = data.GroupBy(i => new { i.NameTest, i.VideoId, i.NameVideo, i.LinkVideo, i.Description }).Select(g => new ViewListTestDTOByCourseId
+            {
+                NameTest = g.Key.NameTest,
+                VideoId = g.Key.VideoId,
+                NameVideo = g.Key.NameVideo,
+                LinkVideo = g.Key.LinkVideo,
+                Description = g.Key.Description,
+                Answers = g.Select(a => new AnswerTestDTOByCourseId
+                {
+
+                    Content = a.Content,
+                    Answer1 = a.Answer1,
+                    Answer2 = a.Answer2,
+                    Answer3 = a.Answer3,
+                    Answer4 = a.Answer4
+
+                }).ToList()
+            }).ToList() ;
+            return Ok(value);
         }
         [HttpGet("GetAllCourseByUserId")]
         public async Task<IActionResult> GetAllCourseByUserId([FromQuery] Guid userId)
