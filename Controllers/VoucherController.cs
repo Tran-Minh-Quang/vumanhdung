@@ -37,6 +37,8 @@ namespace Team12EUP.Controllers
             public DateTime DateEnd { get; set; }
             public string DetailContent { get; set; }
             public Guid Supplier { get; set; }
+            public string QrCode { get; set; }
+
         }
         [HttpPost("AddSupplier")]
         public async Task<IActionResult> AddSupplier([FromBody] SupplierDTO rq)
