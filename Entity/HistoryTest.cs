@@ -9,5 +9,7 @@ namespace Team12EUP.Entity
         public DateTime Date { get; set; }
         [ForeignKey("UserId")]
         public Guid UserId { get; set; }
+        public Guid TestId { get; set; }
+
     }
 }
