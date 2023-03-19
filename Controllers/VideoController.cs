@@ -167,6 +167,7 @@ namespace Team12EUP.Controllers
         }
         public class ViewTestDTOByCourseId
         {
+            public Guid TestId { get; set; }
             public Guid VideoId { get; set; }
             public string NameVideo { get; set; }
             public string LinkVideo { get; set; }
@@ -180,6 +181,8 @@ namespace Team12EUP.Controllers
         }
         public class ViewListTestDTOByCourseId
         {
+            public Guid TestId { get; set; }
+
             public Guid   VideoId   { get; set; }
             public string NameVideo { get; set; }
             public string LinkVideo { get; set; }
@@ -204,6 +207,7 @@ namespace Team12EUP.Controllers
                        join st in _context.questions on sst.Id equals st.TestId
                        select new ViewTestDTOByCourseId
                        {
+                           TestId=sst.Id,
                            VideoId     =s.Id            ,
                            NameVideo   =s.Name          ,
                            LinkVideo   =s.LinkVideo     ,
@@ -216,9 +220,10 @@ namespace Team12EUP.Controllers
                            Answer4 = st.Answer4,
 
                        };
-            var value = data.GroupBy(i => new { i.NameTest, i.VideoId, i.NameVideo, i.LinkVideo, i.Description }).Select(g => new ViewListTestDTOByCourseId
+            var value = data.GroupBy(i => new { i.NameTest, i.VideoId,i.TestId, i.NameVideo, i.LinkVideo, i.Description }).Select(g => new ViewListTestDTOByCourseId
             {
                 NameTest = g.Key.NameTest,
+                TestId=g.Key.TestId,
                 VideoId = g.Key.VideoId,
                 NameVideo = g.Key.NameVideo,
                 LinkVideo = g.Key.LinkVideo,
