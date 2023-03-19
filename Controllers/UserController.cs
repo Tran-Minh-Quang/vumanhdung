@@ -110,6 +110,13 @@ namespace Team12EUP.Controllers
         {
             return Ok(await _context.users.ToListAsync());
         }
-
+        [HttpDelete("DeleteUser")]
+        public async Task<IActionResult> DeleteUser([FromBody]Guid id)
+        {
+            var check = await _context.users.FirstOrDefaultAsync(i => i.Id == id);
+            _context.users.Remove(check);
+            await _context.SaveChangesAsync();
+            return Ok(check.Id);
+        }
     }
 }
