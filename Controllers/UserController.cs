@@ -105,7 +105,11 @@ namespace Team12EUP.Controllers
             return Ok(await _context.users.FirstOrDefaultAsync(i => i.Id == id));
         }
 
-
+        [HttpGet("GetAllUser")]
+        public async Task<IActionResult> GetAllUser()
+        {
+            return Ok(await _context.users.ToListAsync());
+        }
 
     }
 }
